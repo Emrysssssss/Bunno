@@ -10,7 +10,6 @@ public class PlayerAttaque : MonoBehaviour
     public float AttackDamageValue = 25;
     public Collider HitZone;
     [SerializeField] private List <EnemyHealth> enemyAIList;
-    [SerializeField] private List<BossHealth> bossAIList;
     public MeshRenderer RendererAttack;
     private bool canAttack = true;
     public float cooldown = 0.5f;
@@ -35,6 +34,7 @@ public class PlayerAttaque : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 canAttack = false;
+                RendererAttack.enabled = true;
 
                 if (enemyAIList.Count > 0)
                 {
@@ -42,12 +42,8 @@ public class PlayerAttaque : MonoBehaviour
                     {
                         ai.TakeDamage(Mathf.RoundToInt(AttackDamageValue));
                     }
-                    foreach (BossHealth ai in bossAIList)
-                    {
-                        ai.TakeDamage(Mathf.RoundToInt(AttackDamageValue));
-                    }
                 }
-                RendererAttack.enabled = true;
+                
                 yield return new WaitForSeconds(cooldown);
                 canAttack = true;
                 RendererAttack.enabled = false;
